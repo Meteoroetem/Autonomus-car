@@ -17,6 +17,7 @@
 // defines variables
 long duration; // variable for the duration of sound wave travel
 int distance; // variable for the distance measurement
+bool turnRight = false;
 
 void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
@@ -40,12 +41,16 @@ void loop() {
   duration = pulseIn(echoPin, HIGH);
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-  if(distance <= 15){
+  if(distance <= 10){
     DriveBackward();
-    delay(300);
-    TurnLeft();
+    //DriveBackwarAndRight();
     delay(500);
+    //random(-1, 1) > 0 ? TurnLeft() : TurnRight();
+    TurnRight();
+    // turnRight = !turnRight;
+    delay(200);
     DriveForward();
+    delay(300);
   }
   else{
     //DriveForward();
@@ -69,9 +74,21 @@ void DriveBackward(){
   digitalWrite(motor2pin1, LOW);
   digitalWrite(motor2pin2, HIGH);
 }
+void DriveBackwarAndRight(){
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, HIGH);
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+}
 void TurnLeft(){
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
   digitalWrite(motor2pin1, LOW);
   digitalWrite(motor2pin2, HIGH);
+}
+void TurnRight(){
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
 }
